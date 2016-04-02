@@ -1,0 +1,40 @@
+<div class="row">
+    <progress-spinner ng:show="websites == null"></progress-spinner>
+    <div class="list-group">
+        <div class="list-group-item list-group-item-small" ng:repeat="item in websites|orderBy:'title'">
+            <div class="list-group-addon pull-left">
+                <span class="subtle" checkbox ng:model="item.selected"></span>
+            </div>
+            <a ng:href="{{urlPrefix}}/view/websites/{{item.name}}" class="list-group-main">
+                &nbsp;
+                <i class="fa fa-fw fa-globe"></i>
+                &nbsp;
+                {{item.name}}
+            </a>
+        </div>
+    </div>
+
+</div>
+<div class="floating-toolbar-padder"></div>
+<floating-toolbar>
+    <a ng:click="showNewWebsiteDialog()" class="btn btn-default btn-flat" translate>New website</a>
+</floating-toolbar>
+<floating-toolbar class="accented" ng:show="(websites|filter:{selected:true}).length > 0">
+    <a disabled class="btn btn-default btn-flat pull-right">
+        <strong>{{(websites|filter:{selected:true}).length}}</strong> <span translate>items selected</span>
+    </a>
+
+    <a ng:click="doDelete()" class="btn btn-default btn-flat" translate>Delete</a>
+</floating-toolbar>
+<dialog ng:show="newWebsiteDialogVisible">
+    <div class="modal-header">
+        <h4 translate>New website</h4>
+    </div>
+    <div class="modal-body">
+        <input type="text" ng:model="$parent.newWebsiteName" class="form-control" placeholder="{{'Website name'|translate}}" autofocus ng:enter="doCreateWebsite()" />
+    </div>
+    <div class="modal-footer">
+        <a ng:click="doCreateWebsite()" class="btn btn-default btn-flat" translate>Create</a>
+        <a ng:click="$parent.newWebsiteDialogVisible = false" class="btn btn-default btn-flat" translate>Cancel</a>
+    </div>
+</dialog>
